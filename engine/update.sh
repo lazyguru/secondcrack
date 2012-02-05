@@ -12,7 +12,7 @@ fi
 SOURCE_PATH="$1"
 SECONDCRACK_PATH="$2"
 FORCE_CHECK_EVERY_SECONDS=30
-UPDATE_LOG=/tmp/secondcrack-update.log
+UPDATE_LOG=${SECONDCRACK_PATH}/secondcrack-update.log
 
 SCRIPT_LOCK_FILE="${SECONDCRACK_PATH}/engine/secondcrack-updater.pid"
 BASH_LOCK_DIR="${SECONDCRACK_PATH}/engine/secondcrack-updater.sh.lock"
