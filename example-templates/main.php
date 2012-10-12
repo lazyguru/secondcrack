@@ -16,7 +16,9 @@
         <? if ($content['page-type'] != 'frontpage' && $content['page-type'] != 'page' && $content['page-type'] != 'post') { ?>
             <meta name="robots" content="noindex"/>
         <? } ?>
-    </head>
+		<?=( !empty($content['canonical-url']) ? '<link rel="canonical" href="'.$content['canonical-url'].'" />' : null)?>
+	</head>
+	<body <?=( !empty($content['page-id']) ? 'id="'.$content['page-id'].'"' : null)?>>
     <body>
         <div id="mastheadbackground">&nbsp;</div>
         
@@ -55,7 +57,7 @@
                     </article>
                 <? } ?>
             <? } ?>
-            
+			<? if (isset($content['posts'])) foreach ($content['posts'] as $post) { ?>
             <? if (isset($content['archives'])) { ?>
                 <nav id="archives">
                     <h3>Archives</h3> 
@@ -75,7 +77,7 @@
                     <div style="clear: both; font-size: 1px; line-height: 1px;">&nbsp;</div>
                 </nav>
             <? } ?>
-            
+            <? } ?>            
             <footer>
                 <p>&copy; 2006-2012 Marco Arment. All rights reserved.</p>
                 <p>
