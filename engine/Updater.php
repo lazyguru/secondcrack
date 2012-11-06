@@ -2,6 +2,7 @@
 
 require_once(dirname(__FILE__) . '/Post.php');
 require_once(dirname(__FILE__) . '/Hook.php');
+require_once(dirname(__FILE__) . '/Sitemap.php');
 
 class Updater
 {
@@ -393,22 +394,6 @@ class Updater
         }
     }
     
-	public static function update_styles()
-    {
-        foreach (self::changed_files_in_directory(self::$source_path . '/templates') as $filename => $info) {
-            $file_info = pathinfo($filename);
-            if ($file_info['extension'] != 'css') continue;
-            
-            error_log("Changed style file: $filename");
-            $uri = substring_after($filename, self::$source_path . '/templates');
-            $dest_filename = self::$dest_path . $uri;
-            $output_path = dirname($dest_filename);
-            if (! file_exists($output_path)) mkdir_as_parent_owner($output_path, 0755, true);
-            copy($filename, $dest_filename);
-            self::$changes_were_written = true;
-        }
-    }    
-    
     public static function post_hooks($post)
     {
         $dir = self::$source_path . '/hooks';
@@ -464,6 +449,8 @@ class Updater
         do {
             $status = self::_update();
         } while ($status == self::RESEQUENCED_POSTS);
+
+        $sitemap = new Sitemap(self::$dest_path, self::$cache_path);
 
         return $status;
     }
